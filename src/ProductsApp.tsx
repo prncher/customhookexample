@@ -17,8 +17,9 @@ const ProductsApp: React.FC = () => {
             </li>)}
         </ul>
         {menuItems.map((i, index) => 
-            <Route exact path={i.path} component={i.component} />)}
+            <Route key={index} exact path={i.path} component={i.component} />)}
     </Router>
 }
 
 export default ProductsApp;
+

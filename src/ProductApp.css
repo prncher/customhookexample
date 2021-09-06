@@ -1,0 +1,25 @@
+ul {
+    background-color: #999;
+    margin: 0;
+}
+.menu {
+    background-color:#333;
+    display: inline-block;
+    color: #fff;
+    padding: 12px;
+}
+
+.menu:hover {
+    background-color: #aaa;
+    cursor: pointer;
+}
+
+.link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.productsBody {
+    background-color: cadetblue;
+    width: 100%;
+}

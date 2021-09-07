@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import ProductsApp from './ProductsApp';
+import StylesProvider from './styles';
 
 function App() {
-  return <ProductsApp />
+  return <StylesProvider><ProductsApp /></StylesProvider>
 }
 
 export default App;

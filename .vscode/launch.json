@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "name": "Launch firefox",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}",
+            "pathMappings": [
+                {
+                    "url": "file:///home/noadmin/Projects/customhookexample/src",
+                    "path": "${workspaceFolder}/src"
+                },
+                {
+                    "url": "file:///home/noadmin/Projects/customhookexample/src",
+                    "path": "${workspaceFolder}/src"
+                }
+            ]
+        }
+    ]
+}

@@ -78,4 +78,4 @@ const ProductsBodyBase: React.FC = () => {
 
 }
 
-export let ProductsBody = () => withAppliedStyles(ProductsBodyBase);
+export const ProductsBody = () => withAppliedStyles(ProductsBodyBase);

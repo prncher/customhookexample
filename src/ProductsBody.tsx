@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer,
-    TableHead, TableRow } from '@material-ui/core';
-import useProducts from './hooks';
-import { StylesContext } from './styles'
+import React, { useState } from 'react';
 import { withAppliedStyles } from './hoc';
+import useProducts from './hooks';
+import TableHeader from './components/TableHeader';
+import TableBody from './components/TableBody';
+import ProductsTable from './components/ProductsTable';
 
 const headers = ['Name',
     'Description',
@@ -12,70 +12,33 @@ const headers = ['Name',
     'Rating',
     'Price'];
 
-// Following is implemented using styles provider.
-// const StyledTableCell = withStyles((theme) => ({
-//     head: {
-//         backgroundColor: theme.palette.common.black,
-//         color: theme.palette.common.white,
-//     },
-//     body: {
-//         fontSize: 14,
-//     },
-// }))(TableCell);
-
-// Following is implemented using styles provider.
-// const StyledTableRow = withStyles((theme) => ({
-//     root: {
-//         '&:nth-of-type(odd)': {
-//             backgroundColor: theme.palette.action.hover,
-//         },
-//     },
-// }))(TableRow);
-
 const ProductsBodyBase: React.FC = () => {
     const [products, isFetching] = useProducts();
-    const { classes } = useContext(StylesContext);
- 
-    const showHeader = () => {
-        return <TableHead>
-            <TableRow>
-                {headers.map((h, i) =>
-                    <TableCell className={classes.tableHeaderCell} key={i}>{h}</TableCell>)}
-            </TableRow>
-        </TableHead>
-    }
-
-    const showTableBody = () => {
-        return <TableBody>
-            {products.map(p => <TableRow className={classes.tableRow} key={p.ID}>
-                <TableCell>{p.Name}</TableCell>
-                <TableCell>{p.Description}</TableCell>
-                <TableCell>{p.ReleaseDate ?
-                    new Date(p.ReleaseDate).toISOString().slice(0, 10):
-                    'N/A'}</TableCell>
-                <TableCell>{p.DiscontinuedDate ?
-                    new Date(p.DiscontinuedDate).toISOString().slice(0, 10):
-                    'N/A'}</TableCell>
-                <TableCell>{p.Rating}</TableCell>
-                <TableCell>{p.Price}</TableCell>
-            </TableRow>)}
-        </TableBody>
-
-    }
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const showProductsTable = () => {
-        return <TableContainer component={Paper}>
-            <Table className={classes.productsTable} aria-label="Products">
-                {showHeader()}
-                {showTableBody()}
-            </Table>
-        </TableContainer>
+        return <ProductsTable {...{
+            page,
+            rowCount: products.length,
+            rowsPerPage,
+            handlePageChange: (e, n) => setPage(n),
+            handleRowsPerPageChange: e => {
+                setRowsPerPage(parseInt(e.target.value, 10));
+                setPage(0);
+            }
+        }}>
+            <TableHeader {...{ headers }} />
+            <TableBody {...{
+                products: products.slice(page * rowsPerPage,
+                    rowsPerPage * (page + 1))
+            }} />
+        </ProductsTable>
     }
 
     return <>{!isFetching &&
         Array.isArray(products) &&
         showProductsTable()}</>
-
 }
 
 export const ProductsBody = () => withAppliedStyles(ProductsBodyBase);

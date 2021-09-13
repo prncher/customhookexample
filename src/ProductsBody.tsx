@@ -3,7 +3,8 @@ import { withAppliedStyles } from './hoc';
 import useProducts from './hooks';
 import TableHeader from './components/TableHeader';
 import TableBody from './components/TableBody';
-import ProductsTable from './components/ProductsTable';
+import ProductsTableRef from './components/ProductsTableRef';
+import { ProductsTableType } from './components/ProductsTable';
 
 const headers = ['Name',
     'Description',
@@ -18,7 +19,9 @@ const ProductsBodyBase: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const showProductsTable = () => {
-        return <ProductsTable {...{
+        const ref = React.createRef<React.FC<ProductsTableType>>();
+        return <ProductsTableRef {...{
+            ref: {...ref},
             page,
             rowCount: products.length,
             rowsPerPage,
@@ -33,7 +36,7 @@ const ProductsBodyBase: React.FC = () => {
                 products: products.slice(page * rowsPerPage,
                     rowsPerPage * (page + 1))
             }} />
-        </ProductsTable>
+        </ProductsTableRef>
     }
 
     return <>{!isFetching &&

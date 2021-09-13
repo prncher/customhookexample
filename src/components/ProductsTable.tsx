@@ -1,7 +1,11 @@
 import React, { useContext } from 'react';
 import { TableContainer, Paper, Table, TablePagination, FormControlLabel, Switch } from '@material-ui/core';
 import { StylesContext } from '../styles';
-interface PaginationProps {
+
+export type ProductsTableType = typeof ProductsTable;
+
+export interface PaginationProps {
+    ref: React.ForwardedRef<ProductsTableType>;
     page: number
     rowCount: number;
     rowsPerPage: number;
@@ -16,7 +20,6 @@ const ProductsTable: React.FC<PaginationProps> = (props) => {
     const { page, rowCount, rowsPerPage,
         handlePageChange, handleRowsPerPageChange } = props;
     const [dense, setDense] = React.useState(false);
-    let ref = React.createRef<typeof TablePagination>();
     return <div>
         <Paper>
             <TableContainer component={Paper}>
